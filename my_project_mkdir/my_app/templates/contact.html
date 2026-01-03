@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Form</title>
+</head>
+<body>
+    <h2>আমাদের মেসেজ পাঠান</h2>
+    
+    {% if success %}
+        <p style="color: green;">আপনার মেসেজ সফলভাবে ডাটাবেসে সেভ হয়েছে!</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">সেভ করুন</button>
+    </form>
+</body>
+</html>
