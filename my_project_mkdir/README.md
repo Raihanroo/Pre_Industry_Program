@@ -14,11 +14,18 @@
 
 ## 🎯 What is This?
 
-A complete contact form solution that lets users submit messages through an elegant web interface. All submissions are validated, stored in a database, and manageable through a secure admin dashboard.
+A complete contact form solution that lets users submit messages through an elegant web interface. All submissions are validated, stored in a database, and manageable through a secure admin dashboard
 
+<img width="1825" height="789" alt="Screenshot 2026-01-07 191923" src="https://github.com/user-attachments/assets/5c0a25e0-3453-4582-af7b-e951ade0ed56" />
 
+Form Validation: If a user inputs an incorrect email format, name, or message content, an error message automatically appears: "Please input the correct symbols @ in your email" (or similar validation feedback).
 
----
+<img width="1252" height="726" alt="Screenshot 2026-01-07 190107" src="https://github.com/user-attachments/assets/30e617a7-0954-415d-97be-87fb1e5a7a9c" />
+
+After Corrections: Once the user corrects their input and resubmits, the form processes successfully and displays a confirmation message.
+
+<img width="1702" height="751" alt="Screenshot 2026-01-07 190055" src="https://github.com/user-attachments/assets/e9f372bc-78c8-4a92-861a-59c9193c3711" />
+
 
 ## ✨ Features
 
@@ -151,15 +158,7 @@ django-contact-form/
 ✓ XSS protection (template auto-escaping)  
 ✓ Admin authentication required  
 
----
 
-## 📞 Support
-
-- 🐛 Found a bug? Open an issue
-- 💡 Have an idea? Submit a pull request
-- 📧 Email: support@example.com
-
----
 
 <div align="center">
 
