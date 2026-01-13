@@ -4,6 +4,12 @@ Family Expenditure Tracker একটি Django ভিত্তিক ওয়�
 
 🎯 এই App টা কী করে?
 সহজ কথায়:
+<img width="1683" height="768" alt="image" src="https://github.com/user-attachments/assets/b1d44749-d07c-4a9b-8066-54b60bf5685c" />
+<img width="1874" height="869" alt="image" src="https://github.com/user-attachments/assets/12d5e949-81e8-4420-b3d0-3ae0c73b5782" />
+<img width="1919" height="676" alt="image" src="https://github.com/user-attachments/assets/11e2d03c-9688-4f3b-932b-3331fe16e42a" />
+<img width="1609" height="862" alt="image" src="https://github.com/user-attachments/assets/2dd11b2b-62e7-4f1f-a428-403b667e52e8" />
+<img width="1836" height="720" alt="image" src="https://github.com/user-attachments/assets/061f7f7a-cb97-4a49-a496-785217397c57" />
+
 
 খরচ রেজিস্টার করুন - প্রতিটি খরচ add করুন (খাবার, পরিবহন, বিদ্যুৎ ইত্যাদি)
 খরচ দেখুন - সবগুলো খরচের একটি লিস্ট
