@@ -1,0 +1,9 @@
+<div style="max-width: 350px; margin: 100px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; text-align: center; font-family: Arial;">
+    <h2>Family Login</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+    </form>
+    <p style="margin-top: 15px;">New member? <a href="{% url 'register' %}">Register here</a></p>
+</div>

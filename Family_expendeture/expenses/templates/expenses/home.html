@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Dashboard</title>
+</head>
+<body>
+    <div style="max-width: 900px; margin: 40px auto; font-family: 'Inter', -apple-system, sans-serif; padding: 0 20px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 25px;">
+            <div>
+                <h1 style="margin: 0; font-size: 28px; color: #1e293b; font-weight: 800; letter-spacing: -0.5px;">Family Dashboard</h1>
+                <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">Welcome back, <span style="color: #2563eb; font-weight: 600;">@{{ user.username }}</span></p>
+            </div>
+            
+            <a href="{% url 'logout' %}" style="text-decoration: none; color: #ef4444; font-size: 13px; font-weight: 700; padding: 10px 20px; border: 1.5px solid #fee2e2; border-radius: 10px; background: #fff5f5; transition: 0.3s; text-transform: uppercase;">
+                Log Out
+            </a>
+        </div>
+
+        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 35px; border: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; background-image: linear-gradient(to right, #ffffff, #f8fafc);">
+            <div style="border-left: 5px solid #2563eb; padding-left: 20px;">
+                <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Total Spending</p>
+                <h2 style="margin: 5px 0 0; color: #0f172a; font-size: 40px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 24px; color: #2563eb;">৳</span> {{ total_amount }}
+                </h2>
+            </div>
+            <a href="{% url 'add_expense' %}" style="background: #2563eb; color: white; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 15px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); transition: transform 0.2s;">
+                + Add New Expense
+            </a>
+        </div>
+
+        <div style="background: white; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #f1f5f9; overflow: hidden;">
+            <div style="padding: 20px 25px; border-bottom: 1px solid #f1f5f9;">
+                <h3 style="margin: 0; color: #334155; font-size: 18px; font-weight: 700;">Recent Transactions</h3>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8fafc;">
+                            <th style="padding: 15px 25px; color: #64748b; font-size: 12px; font-weight: 700; text-transform: uppercase; text-align: left;">Date</th>
+                            <th style="padding: 15px 25px; color: #64748b; font-size: 12px; font-weight: 700; text-transform: uppercase; text-align: left;">Category</th>
+                            <th style="padding: 15px 25px; color: #64748b; font-size: 12px; font-weight: 700; text-transform: uppercase; text-align: left;">Description</th>
+                            <th style="padding: 15px 25px; color: #64748b; font-size: 12px; font-weight: 700; text-transform: uppercase; text-align: right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in expenses %}
+                        <tr style="border-bottom: 1px solid #f8fafc; transition: background 0.2s;">
+                            <td style="padding: 18px 25px; color: #475569; font-size: 14px; font-weight: 500;">
+                                {{ expense.date|date:"d M Y"|default:"Recently Added" }}
+                            </td>
+                            <td style="padding: 18px 25px;">
+                                <span style="background: #eff6ff; color: #2563eb; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 700; border: 1px solid #dbeafe;">
+                                    {{ expense.category|upper }}
+                                </span>
+                            </td>
+                            <td style="padding: 18px 25px; color: #475569; font-size: 14px; font-weight: 500;">
+                                {{ expense.description|truncatewords:10|default:"N/A" }}
+                            </td>
+                            <td style="padding: 18px 25px; text-align: right; font-weight: 800; color: #1e293b; font-size: 16px;">
+                                {{ expense.amount }} <span style="font-size: 12px; color: #94a3b8; font-weight: 400;">TK</span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" style="padding: 40px; text-align: center; color: #94a3b8;">No records found. Add your first expense!</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px; color: #94a3b8; font-size: 12px; letter-spacing: 0.5px;">© 2026 Family Expense Tracker • Transparency in Finance</p>
+    </div>
+</body>
+</html>
