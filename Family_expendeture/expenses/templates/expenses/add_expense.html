@@ -24,34 +24,5 @@
     <div style="text-align: center; margin-top: 20px;">
         <a href="{% url 'home' %}" style="color: #888; text-decoration: none; font-size: 14px;">← Cancel and Go Back</a>
     </div>
-</div><div style="max-width: 400px; margin: 60px auto; padding: 30px; background: #cfefb1; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
     
-    <h2 style="text-align: center; color: #333; margin-bottom: 25px; font-weight: 600;">Add Family Expense</h2>
-    
-    <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-        {% csrf_token %}
-        
-        <style>
-            /* Django form fields styling */
-            p label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-            p input, p select, p textarea { 
-                width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; 
-            }
-            p input:focus { border-color: #28a745; outline: none; box-shadow: 0 0 5px rgba(40,167,69,0.2); }
-        </style>
-
-        {{ form.as_p }}
-        <div>
-    <label for="description">Description:</label>
-    <textarea name="description" id="description" placeholder="Enter description"></textarea>
-</div>
-
-        <button type="submit" style="width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
-            Save to Records
-        </button>
-    </form>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{% url 'home' %}" style="color: #888; text-decoration: none; font-size: 14px;">← Cancel and Go Back</a>
-    </div>
-</div>
