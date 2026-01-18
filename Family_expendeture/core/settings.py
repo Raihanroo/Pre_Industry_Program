@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-uj*1wsjabg2j64i$5wi1df8unqj3kz9s#vhd6t36%*mm1_3-59
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]  # Development এর জন্য সব host allow করুন
 
 
 # Application definition
@@ -37,9 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "expenses",
+    "expenses",  # আপনার app
     "crispy_bootstrap5",
-
 ]
 
 MIDDLEWARE = [
@@ -109,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Dhaka"  # বাংলাদেশের সময় অঞ্চল
 
 USE_I18N = True
 
@@ -120,14 +119,50 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+# ==================== Login/Logout Redirects ====================
+LOGIN_URL = "expenses:login"  # Login page না পেলে এখানে যাবে
+LOGIN_REDIRECT_URL = "expenses:home"  # Login এর পর এখানে যাবে
+LOGOUT_REDIRECT_URL = "expenses:login"  # Logout এর পর এখানে যাবে
 
-# Redirects after Login/Logout
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "login"
+
+# ==================== CSRF Settings ====================
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+CSRF_COOKIE_SECURE = False  # Development এ False, Production এ True
+CSRF_COOKIE_HTTPONLY = False  # AJAX এর জন্য False রাখুন
+SESSION_COOKIE_SECURE = False  # Development এ False, Production এ True
+
+
+# ==================== JSON API Settings ====================
+JSON_ENCODER_CLASS = 'django.core.serializers.json.DjangoJSONEncoder'
+
+
+# ==================== Session Settings ====================
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600  # 2 সপ্তাহ
+SESSION_SAVE_EVERY_REQUEST = False
+
+
+# ==================== Logging (Optional but useful) ====================
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}

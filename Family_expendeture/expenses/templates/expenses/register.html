@@ -1,38 +1,81 @@
-<div style="max-width: 450px; margin: 60px auto; padding: 40px; background: #c1d7e8; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #1e293b; margin-bottom: 8px; font-size: 28px; font-weight: 700;">Create Account</h2>
-        <p style="color: #64748b; font-size: 14px;">Join our family portal today</p>
-    </div>
-
-    <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-        {% csrf_token %}
-        
-        <style>
-            form p { margin-bottom: 15px; }
-            form label { display: block; margin-bottom: 5px; font-weight: 600; color: #475569; font-size: 14px; }
-            form input { 
-                width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 8px; 
-                box-sizing: border-box; font-size: 15px; transition: all 0.3s;
-            }
-            form input:focus { 
-                outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); 
-            }
-            button:hover { background: #1d4ed8 !important; transform: translateY(-1px); }
-            button:active { transform: translateY(0); }
-        </style>
-
-        {{ form.as_p }}
-
-        <button type="submit" style="width: 100%; padding: 14px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 10px;">
-            Register Now
-        </button>
-    </form>
-
-    <div style="text-align: center; margin-top: 25px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
-        <p style="color: #64748b; font-size: 14px;">
-            Already have an account? 
-            <a href="{% url 'login' %}" style="color: #2563eb; text-decoration: none; font-weight: 600;">Login here</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Family Expense</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #2af598 0%, #009efd 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .register-card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 450px;
+        }
+        .register-card h2 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 30px;
+        }
+        form p {
+            margin-bottom: 15px;
+            color: #475569;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .btn-register:hover {
+            background: #334155;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .helptext {
+            font-size: 12px;
+            color: #94a3b8;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-card">
+        <h2>Join Family Board</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-register">Create Account</button>
+        </form>
+        <p style="text-align: center; margin-top: 25px; color: #64748b;">
+            Already have an account? <a href="{% url 'login' %}" style="color: #009efd; text-decoration: none; font-weight: 600;">Log In</a>
         </p>
     </div>
-</div>
+</body>
+</html>

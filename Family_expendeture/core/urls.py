@@ -12,19 +12,18 @@ Class-based views
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+    2. Add a URL to urlpatterns:  path('api-auth/', include('rest_framework.urls'))
 """
 
 from django.contrib import admin
-from django.urls import path
-from expenses import views as expense_views
-from django.contrib.auth import views as auth_views
+from django.urls import path, include
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls), # অ্যাডমিন প্যানেল
-    path('register/', expense_views.register, name='register'), # রেজিস্ট্রেশন পেজ
-    path('login/', auth_views.LoginView.as_view(template_name='expenses/login.html'), name='login'), # লগইন
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'), # লগআউট
-    path('', expense_views.home, name='home'), # মেইন ড্যাশবোর্ড
-    path('add-expense/', expense_views.add_expense, name='add_expense'), # খরচ যোগ করার পেজ
+    # Admin panel
+    path("admin/", admin.site.urls),
+    # Expenses app URLs
+    path("expenses/", include("expenses.urls")),
+    # Root redirect - যখন localhost:8000 এ যাবে তখন login এ নিয়ে যাবে
+    path("", RedirectView.as_view(url="expenses/login/", permanent=False)),
 ]
