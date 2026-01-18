@@ -9,23 +9,31 @@ such as: registered family members & personal expenditure to save in the databas
 ## Projects Visual Flow 
 From the beginning, you have to create an Account on the Registration page.
 
-<img width="1336" height="820" alt="image" src="https://github.com/user-attachments/assets/58ddb28c-cd23-4076-be40-bf927501ffe3" />
+<img width="1264" height="823" alt="image" src="https://github.com/user-attachments/assets/2e7660fd-f987-412e-bae5-ed8e446ecd53" />
 
 After registration, your family login form will appear, and then fill in your username and password 
 
-<img width="1167" height="704" alt="image" src="https://github.com/user-attachments/assets/10a554aa-bfb2-43a3-825d-8d15962bf970" />
+<img width="1348" height="812" alt="image" src="https://github.com/user-attachments/assets/35b62aa3-cc59-48c6-8c88-96b0f30b3152" />
+
 
 As a member of the family, you will see your Family Dashboard like this 
 
-<img width="1756" height="669" alt="image" src="https://github.com/user-attachments/assets/ed132a73-cf62-4b82-b8c6-fdd988fd11b5" />
-Now, you will add your expenditure by clicking the "Add New Expenditure" button. Then you put your expenditure & press the Save to record button 
+<img width="1562" height="821" alt="image" src="https://github.com/user-attachments/assets/fc92f9d7-d293-49cf-8665-a87d68b76c38" />
 
-<img width="1348" height="830" alt="image" src="https://github.com/user-attachments/assets/ef1f7036-6920-4052-ab05-761f5a7aee8f" />
+Now, you will add your expenditure by clicking the "Add New Expenditure" button. Then you put your expenditure & press the Save to record button, or if you want to edit or delete your current date, you can click the  edit button, then you will see the Update Expenditure like this and save the record
+
+<img width="1035" height="730" alt="image" src="https://github.com/user-attachments/assets/6920287d-5c68-4e08-a462-72882785fa34" />
+
+And if you click the delete button to remove your date from the dashboard, the pop-up button will show you for your permission, and if you press the ok button, the date will be removed from the dashboard 
+
+<img width="1867" height="969" alt="image" src="https://github.com/user-attachments/assets/b196d64e-e662-4cf0-b3e5-be5e75f5a82e" />
+
 
 Your Family Dashboard will show your live expenditure, which was included with (date, Category, Description, Amount)  
-Inside the dashboard/homepage, you have the Total Spending Heder where your whole day, month, or whenever you're adding your expenditure, the total spending money will be included here  
+Inside the dashboard/homepage, you have the Total Spending Header where, for your whole day, month, or whenever you're adding your expenditure, the total spending money will be included here  
 
-<img width="1621" height="621" alt="image" src="https://github.com/user-attachments/assets/cf78e7c0-0fc4-4137-9683-9b59871ff542" />
+<img width="1562" height="821" alt="image" src="https://github.com/user-attachments/assets/fc92f9d7-d293-49cf-8665-a87d68b76c38" />
+
 
 So, this is the common flow of the project, which is described here by using images 
 
