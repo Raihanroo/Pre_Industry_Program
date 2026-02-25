@@ -56,7 +56,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "expenses" / "templates"],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -73,16 +73,15 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 
-# Database
+# Database - MySQL Configuration
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+   'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -126,15 +125,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # ==================== Login/Logout Redirects ====================
-LOGIN_URL = "expenses:login"  # Login page না পেলে এখানে যাবে
-LOGIN_REDIRECT_URL = "expenses:home"  # Login এর পর এখানে যাবে
-LOGOUT_REDIRECT_URL = "expenses:login"  # Logout এর পর এখানে যাবে
+
+LOGIN_URL = "login"  # Updated: root level login
+LOGIN_REDIRECT_URL = "expenses:home"  # login করলে কোথায় যাবে
+LOGOUT_REDIRECT_URL = "login"  # Updated: root level login
 
 
 # ==================== CSRF Settings ====================
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 CSRF_COOKIE_SECURE = False  # Development এ False, Production এ True
@@ -143,26 +143,26 @@ SESSION_COOKIE_SECURE = False  # Development এ False, Production এ True
 
 
 # ==================== JSON API Settings ====================
-JSON_ENCODER_CLASS = 'django.core.serializers.json.DjangoJSONEncoder'
+JSON_ENCODER_CLASS = "django.core.serializers.json.DjangoJSONEncoder"
 
 
 # ==================== Session Settings ====================
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_AGE = 1209600  # 2 সপ্তাহ
 SESSION_SAVE_EVERY_REQUEST = False
 
 
 # ==================== Logging (Optional but useful) ====================
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
     },
 }

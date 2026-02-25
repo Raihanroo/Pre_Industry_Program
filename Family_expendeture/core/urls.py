@@ -20,10 +20,9 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    # Admin panel
-    path("admin/", admin.site.urls),
-    # Expenses app URLs
-    path("expenses/", include("expenses.urls")),
-    # Root redirect - যখন localhost:8000 এ যাবে তখন login এ নিয়ে যাবে
-    path("", RedirectView.as_view(url="expenses/login/", permanent=False)),
+    path('admin/', admin.site.urls),
+    # নিশ্চিত করুন namespace="expenses" ঠিকমতো দেওয়া আছে
+    path('expenses/', include('expenses.urls', namespace='expenses')), 
+    # হোম পেজে গেলে সরাসরি লগইন বা ড্যাশবোর্ডে পাঠানোর জন্য
+    path('', RedirectView.as_view(url='/expenses/login/', permanent=False)),
 ]

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Expense
-
+from .models import Budget
 
 class ExpenseForm(forms.ModelForm):
     """খরচ ফর্ম"""
@@ -63,3 +63,17 @@ class UserCreationFormCustom(UserCreationForm):
             'class': 'form-control',
             'placeholder': 'পাসওয়ার্ড নিশ্চিত করুন'
         })
+        
+    
+class BudgetForm(forms.ModelForm):
+    class Meta:
+        model = Budget
+        fields = ['monthly_budget']
+        widgets = {
+            'monthly_budget': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter monthly budget in TK',
+                'step': '0.01',
+                'min': '0'
+            })
+        }

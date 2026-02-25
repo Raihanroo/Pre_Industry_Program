@@ -1,28 +1,235 @@
-<div style="max-width: 400px; margin: 60px auto; padding: 30px; background: #cfefb1; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    
-    <h2 style="text-align: center; color: #333; margin-bottom: 25px; font-weight: 600;">Add Family Expense</h2>
-    
-    <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-        {% csrf_token %}
-        
-        <style>
-            /* Django form fields styling */
-            p label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-            p input, p select, p textarea { 
-                width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; 
-            }
-            p input:focus { border-color: #28a745; outline: none; box-shadow: 0 0 5px rgba(40,167,69,0.2); }
-        </style>
+{% extends 'base.html' %}
+{% load static %}
 
-        {{ form.as_p }}
+{% block title %}খরচ যোগ করুন{% endblock %}
 
-        <button type="submit" style="width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
-            Save to Records
-        </button>
-    </form>
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg" style="border-radius: 15px;">
+                <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px 15px 0 0;">
+                    <h4 style="color: white; margin: 0;">
+                        <i class="fas fa-plus-circle"></i>
+                        {% if is_edit %}
+                            খরচ সংশোধন
+                        {% else %}
+                            নতুন খরচ যোগ করুন
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" id="expenseForm">
+                        {% csrf_token %}
+                        
+                        <!-- তারিখ -->
+                        <div class="form-group mb-4">
+                            <label for="id_date" class="form-label fw-bold">তারিখ *</label>
+                            {{ form.date }}
+                            {% if form.date.errors %}
+                                <div class="text-danger small mt-1">{{ form.date.errors }}</div>
+                            {% endif %}
+                        </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{% url 'home' %}" style="color: #888; text-decoration: none; font-size: 14px;">← Cancel and Go Back</a>
+                        <!-- ক্যাটাগরি -->
+                        <div class="form-group mb-4">
+                            <label for="id_category" class="form-label fw-bold">ক্যাটাগরি *</label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                                <div class="text-danger small mt-1">{{ form.category.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- বর্ণনা -->
+                        <div class="form-group mb-4">
+                            <label for="id_description" class="form-label fw-bold">বর্ণনা</label>
+                            {{ form.description }}
+                            <small class="form-text text-muted d-block mt-2">
+                                যেমন: বাজার থেকে সবজি, মাসিক ভাড়া, ইত্যাদি
+                            </small>
+                            {% if form.description.errors %}
+                                <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- পরিমাণ -->
+                        <div class="form-group mb-4">
+                            <label for="id_amount" class="form-label fw-bold">পরিমাণ (টাকা) *</label>
+                            {{ form.amount }}
+                            {% if form.amount.errors %}
+                                <div class="text-danger small mt-1">{{ form.amount.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- রিকারিং চেকবক্স -->
+                        <div class="form-group mb-4">
+                            <div class="form-check">
+                                {{ form.is_recurring }}
+                                <label for="id_is_recurring" class="form-check-label fw-bold">
+                                    এটি পুনরাবৃত্ত খরচ? (নিয়মিত খরচ)
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- রিকারিং অপশন (প্রাথমিকভাবে লুকানো) -->
+                        <div id="recurringOptions" style="display: none;" class="alert alert-info p-4 mb-4" style="border-left: 4px solid #667eea;">
+                            <h5 class="mb-3" style="color: #667eea;">
+                                <i class="fas fa-sync-alt"></i> পুনরাবৃত্তি সেটিংস
+                            </h5>
+                            
+                            <!-- ফ্রিকোয়েন্সি -->
+                            <div class="form-group mb-3">
+                                <label for="id_frequency" class="form-label fw-bold">কত দিন পরে পুনরাবৃত্ত হবে? *</label>
+                                {{ form.frequency }}
+                                <small class="form-text text-muted d-block mt-2">
+                                    <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                                        <strong>তথ্য:</strong>
+                                        <ul class="mt-2 mb-0" style="padding-left: 20px;">
+                                            <li><strong>একবার:</strong> শুধুমাত্র এক বার খরচ হবে</li>
+                                            <li><strong>প্রতিদিন:</strong> প্রতিদিন এই খরচ যোগ হবে</li>
+                                            <li><strong>সাপ্তাহিক:</strong> প্রতি সপ্তাহে পুনরাবৃত্ত হবে</li>
+                                            <li><strong>মাসিক:</strong> প্রতি মাসে একই দিনে পুনরাবৃত্ত হবে</li>
+                                            <li><strong style="color: #28a745;">বার্ষিক:</strong> <span style="color: #28a745;">প্রতি বছর একই দিনে পুনরাবৃত্ত হবে ✅</span></li>
+                                        </ul>
+                                    </div>
+                                </small>
+                                {% if form.frequency.errors %}
+                                    <div class="text-danger small mt-1">{{ form.frequency.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- শেষ তারিখ -->
+                            <div class="form-group mb-3">
+                                <label for="id_recurring_end_date" class="form-label fw-bold">কখন পর্যন্ত পুনরাবৃত্ত করবে?</label>
+                                {{ form.recurring_end_date }}
+                                <small class="form-text text-muted d-block mt-2">
+                                    খালি রেখে দিলে ৫ বছর পর্যন্ত স্বয়ংক্রিয়ভাবে চলবে
+                                </small>
+                                {% if form.recurring_end_date.errors %}
+                                    <div class="text-danger small mt-1">{{ form.recurring_end_date.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- সতর্কতা বার্তা -->
+                            <div class="alert alert-warning" role="alert">
+                                <strong>⚠️ লক্ষ্য করুন:</strong> রিকারিং খরচ স্বয়ংক্রিয়ভাবে প্রতিদিন সিস্টেমে যুক্ত হবে।
+                                এই বৈশিষ্ট্য সঠিকভাবে কাজ করতে সার্ভারে একটি স্বয়ংক্রিয় কাজ (Cron Job) চলমান থাকতে হবে।
+                            </div>
+                        </div>
+
+                        <!-- বাটন -->
+                        <div class="form-group d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
+                                <i class="fas fa-save"></i>
+                                {% if is_edit %}
+                                    আপডেট করুন
+                                {% else %}
+                                    সংরক্ষণ করুন
+                                {% endif %}
+                            </button>
+                            <a href="{% url 'expenses:home' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times"></i> বাতিল
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    
+<style>
+    .form-control, .form-select {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 10px 15px;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .form-label {
+        color: #333;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .card {
+        border: none;
+    }
+
+    .btn {
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    #recurringOptions {
+        border-left: 4px solid #667eea;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .alert-info {
+        background-color: #f0f4ff;
+        border-color: #d0deff;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffc107;
+    }
+</style>
+
+<script>
+    // রিকারিং অপশন টগেল করুন
+    document.addEventListener('DOMContentLoaded', function() {
+        const recurringCheckbox = document.getElementById('id_is_recurring');
+        const recurringOptions = document.getElementById('recurringOptions');
+        const frequencyField = document.getElementById('id_frequency');
+
+        // প্রাথমিক স্থিতি চেক করুন
+        if (recurringCheckbox.checked) {
+            recurringOptions.style.display = 'block';
+        }
+
+        // চেকবক্স পরিবর্তন শুনুন
+        recurringCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                recurringOptions.style.display = 'block';
+                frequencyField.required = true;
+            } else {
+                recurringOptions.style.display = 'none';
+                frequencyField.required = false;
+            }
+        });
+
+        // ফর্ম সাবমিট হওয়ার আগে যাচাই করুন
+        document.getElementById('expenseForm').addEventListener('submit', function(e) {
+            if (recurringCheckbox.checked && !frequencyField.value) {
+                e.preventDefault();
+                alert('অনুগ্রহ করে পুনরাবৃত্তির ধরন নির্বাচন করুন!');
+            }
+        });
+    });
+</script>
+{% endblock %}
