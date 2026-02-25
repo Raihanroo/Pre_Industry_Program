@@ -191,21 +191,23 @@ def register_view(request):
         # Check if passwords match
         if password != password_confirm:
             messages.error(request, "Passwords do not match!")
-            return redirect("expenses:register") # Added namespace
+            return redirect("expenses:register")  # Added namespace
 
         # Check if username exists
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists!")
-            return redirect("expenses:register") # Added namespace
+            return redirect("expenses:register")  # Added namespace
 
         # Create user
         user = User.objects.create_user(
             username=username, email=email, password=password
         )
-        
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
         messages.success(request, "Account created successfully! Please log in.")
         # This was the line causing the error:
-        return redirect("expenses:login") 
+        return redirect("expenses:login")
 
     return render(request, "register.html")
 
