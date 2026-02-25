@@ -23,9 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-uj*1wsjabg2j64i$5wi1df8unqj3kz9s#vhd6t36%*mm1_3-59"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["*"]  # Development এর জন্য সব host allow করুন
+DEBUG = False
+ALLOWED_HOSTS = [
+    "pre-industry-program.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]  # Development এর জন্য সব host allow করুন
 
 
 # Application definition
@@ -77,9 +80,9 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
