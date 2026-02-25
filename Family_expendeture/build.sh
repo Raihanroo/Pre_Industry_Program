@@ -2,7 +2,9 @@
 # exit on error
 set -o errexit
 
-pip install -r requirements.txt
+# সঠিক ডিরেক্টরি অনুযায়ী ইনস্টল করা
+pip install -r Family_expendeture/requirements.txt
 
-python manage.py collectstatic --no-input
-python manage.py migrate
+# স্ট্যাটিক ফাইল এবং মাইগ্রেশন রান করা
+python Family_expendeture/manage.py collectstatic --no-input
+python Family_expendeture/manage.py migrate
