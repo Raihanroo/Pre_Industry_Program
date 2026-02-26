@@ -23,11 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-uj*1wsjabg2j64i$5wi1df8unqj3kz9s#vhd6t36%*mm1_3-59"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [
-    "pre-industry-program.onrender.com",
-    "localhost",
-    "127.0.0.1",
+    "rai32han.pythonanywhere.com",
+    "Rai32han.pythonanywhere.com",
+    "*",
 ]  # Development এর জন্য সব host allow করুন
 
 
@@ -139,11 +139,12 @@ LOGOUT_REDIRECT_URL = "login"  # Updated: root level login
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://rai32han.pythonanywhere.com",
 ]
 
-CSRF_COOKIE_SECURE = False  # Development এ False, Production এ True
+CSRF_COOKIE_SECURE = True  # Development এ False, Production এ True
 CSRF_COOKIE_HTTPONLY = False  # AJAX এর জন্য False রাখুন
-SESSION_COOKIE_SECURE = False  # Development এ False, Production এ True
+SESSION_COOKIE_SECURE = True  # Development এ False, Production এ True
 
 
 # ==================== JSON API Settings ====================
