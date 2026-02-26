@@ -8,7 +8,13 @@ from .models import Expense, Budget
 from .forms import BudgetForm, ExpenseForm
 from django.contrib.auth.models import User
 import json
+from django.http import HttpResponse
 
+def reset_password_temp(request):
+    user = User.objects.get(username='raihan')
+    user.set_password('123456')
+    user.save()
+    return HttpResponse("Password reset done!")
 
 # Home/Dashboard View
 @login_required
