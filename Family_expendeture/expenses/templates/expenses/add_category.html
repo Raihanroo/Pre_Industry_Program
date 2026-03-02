@@ -1,13 +1,24 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Category</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; padding: 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -18,24 +29,28 @@
             align-items: center;
             margin-bottom: 30px;
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 8px 16px;
             border-radius: 5px;
         }
+
         .container {
             max-width: 700px;
             margin: 0 auto;
         }
+
         .form-container {
             background: white;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
         }
+
         .form-container h2 {
             color: #333;
             margin-bottom: 30px;
@@ -43,9 +58,11 @@
             border-bottom: 2px solid #f97316;
             padding-bottom: 15px;
         }
+
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
             color: #555;
@@ -53,6 +70,7 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
+
         .form-group input {
             width: 100%;
             padding: 12px 15px;
@@ -61,10 +79,12 @@
             font-size: 15px;
             transition: border-color 0.3s;
         }
+
         .form-group input:focus {
             outline: none;
             border-color: #f97316;
         }
+
         .btn-submit {
             width: 100%;
             padding: 15px;
@@ -76,7 +96,11 @@
             font-weight: 600;
             cursor: pointer;
         }
-        .btn-submit:hover { opacity: 0.9; }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
         .alert {
             padding: 12px 20px;
             border-radius: 8px;
@@ -84,13 +108,15 @@
             color: #155724;
             margin-bottom: 20px;
         }
+
         /* Category List */
         .list-container {
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
+
         .list-container h2 {
             color: #333;
             margin-bottom: 20px;
@@ -98,7 +124,12 @@
             border-bottom: 2px solid #f97316;
             padding-bottom: 15px;
         }
-        table { width: 100%; border-collapse: collapse; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
         table th {
             background: #f5f7fa;
             padding: 15px;
@@ -107,8 +138,17 @@
             color: #555;
             border-bottom: 2px solid #e0e0e0;
         }
-        table td { padding: 15px; border-bottom: 1px solid #e0e0e0; color: #666; }
-        table tr:hover { background: #f9f9f9; }
+
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #666;
+        }
+
+        table tr:hover {
+            background: #f9f9f9;
+        }
+
         .category-badge {
             display: inline-block;
             background: #f97316;
@@ -117,13 +157,24 @@
             border-radius: 20px;
             font-size: 12px;
         }
+
         .empty-state {
             text-align: center;
             padding: 30px;
             color: #999;
         }
+
+        .action-links a {
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .action-links a:hover {
+            opacity: 0.7;
+        }
     </style>
 </head>
+
 <body>
     <div class="navbar">
         <h1>📂 Expense Categories</h1>
@@ -136,9 +187,9 @@
             <h2>📂 Add New Category</h2>
 
             {% if messages %}
-                {% for message in messages %}
-                <div class="alert">{{ message }}</div>
-                {% endfor %}
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
             {% endif %}
 
             <form method="POST">
@@ -160,6 +211,7 @@
                     <tr>
                         <th>#</th>
                         <th>Category Name</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -167,6 +219,13 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td><span class="category-badge">{{ category.name }}</span></td>
+                        <td>
+                            <a href="{% url 'expenses:edit_category' category.id %}"
+                                style="color:#667eea; font-weight:600; margin-right:10px;">✏️ Edit</a>
+                            <a href="{% url 'expenses:delete_category' category.id %}"
+                                style="color:#f97316; font-weight:600;" onclick="return confirm('Delete করবেন?')">🗑️
+                                Delete</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -179,4 +238,5 @@
         </div>
     </div>
 </body>
+
 </html>
