@@ -9,7 +9,7 @@ from .forms import BudgetForm, ExpenseForm
 from django.contrib.auth.models import User
 import json
 from rest_framework import viewsets, permissions  # permissions যোগ করা হয়েছে
-from .models import Expense, FamilyMember, IncomeSource, ExpenseCategory, Expenditure
+from .models import Expense, Budget, FamilyMember, IncomeSource, ExpenseCategory, Expenditure
 from .serializers import (
     ExpenseSerializer,
     FamilyMemberSerializer,
@@ -256,6 +256,20 @@ def member_list(request):
     members = FamilyMember.objects.all()
     context = {"members": members}
     return render(request, "expenses/member_list.html", context)
+
+
+# add category
+@login_required
+def add_category(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        ExpenseCategory.objects.create(name=name)
+        messages.success(request, "Category added successfully!")
+        return redirect("expenses:add_category")
+
+    categories = ExpenseCategory.objects.all()
+    context = {"categories": categories}
+    return render(request, "expenses/add_category.html", context)
 
 
 # Expense Statistics

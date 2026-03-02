@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Category</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; padding: 20px; }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        .form-container h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+            border-bottom: 2px solid #f97316;
+            padding-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #f97316;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-submit:hover { opacity: 0.9; }
+        .alert {
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: #d4edda;
+            color: #155724;
+            margin-bottom: 20px;
+        }
+        /* Category List */
+        .list-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .list-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 2px solid #f97316;
+            padding-bottom: 15px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        table th {
+            background: #f5f7fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        table td { padding: 15px; border-bottom: 1px solid #e0e0e0; color: #666; }
+        table tr:hover { background: #f9f9f9; }
+        .category-badge {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>📂 Expense Categories</h1>
+        <a href="{% url 'expenses:home' %}">← Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+        <!-- Add Category Form -->
+        <div class="form-container">
+            <h2>📂 Add New Category</h2>
+
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>📝 Category Name</label>
+                    <input type="text" name="name" placeholder="যেমন: খাবার, শিক্ষা, চিকিৎসা" required>
+                </div>
+                <button type="submit" class="btn-submit">✅ Save Category</button>
+            </form>
+        </div>
+
+        <!-- Category List -->
+        <div class="list-container">
+            <h2>📋 All Categories</h2>
+            {% if categories %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Category Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><span class="category-badge">{{ category.name }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <p>কোনো category নেই। নতুন category যোগ করুন!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

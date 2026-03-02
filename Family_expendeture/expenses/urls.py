@@ -33,4 +33,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('members/add/', views.add_member, name='add_member'),
     path('members/', views.member_list, name='member_list'),
+    path('categories/manage/', views.add_category, name='add_category'),
 ]
