@@ -105,7 +105,7 @@ class IncomeSource(models.Model):
 
 
 # ✅ নতুন — Expenditure Category
-class MemberCategory(models.Model):
+class ExpenseCategory(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -157,7 +157,7 @@ class Expenditure(models.Model):
         FamilyMember, on_delete=models.CASCADE, related_name="expenditures"
     )
     category = models.ForeignKey(
-        MemberCategory,
+        ExpenseCategory,
         on_delete=models.SET_NULL,
         null=True,
         related_name="expenditures",

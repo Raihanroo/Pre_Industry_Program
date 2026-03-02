@@ -3,7 +3,7 @@ from . import views
 from rest_framework.routers import DefaultRouter
 from .views import (
     ExpenseViewSet, FamilyMemberViewSet,
-    IncomeSourceViewSet, MemberCategoryViewSet, ExpenditureViewSet
+    IncomeSourceViewSet, ExpenseCategoryViewSet, ExpenditureViewSet
 )
 
 # ১. রাউটার কনফিগারেশন
@@ -11,7 +11,7 @@ router = DefaultRouter()
 router.register(r'expenses-api', ExpenseViewSet, basename='expense-api')
 router.register(r'members', FamilyMemberViewSet, basename='member')
 router.register(r'income-sources', IncomeSourceViewSet, basename='income-source')
-router.register(r'categories', MemberCategoryViewSet, basename='category')
+router.register(r'categories', ExpenseCategoryViewSet, basename='category')
 router.register(r'expenditures', ExpenditureViewSet, basename='expenditure')
 
 app_name = 'expenses'

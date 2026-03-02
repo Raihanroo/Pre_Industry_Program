@@ -3,7 +3,7 @@ from rest_framework import serializers
 # DRF (Django REST Framework) থেকে serializers import করছি
 # serializers হলো Database data কে JSON এ convert করার tool
 
-from .models import FamilyMember, IncomeSource, MemberCategory, Expenditure, Expense
+from .models import FamilyMember, IncomeSource, ExpenseCategory, Expenditure, Expense
 
 # আমাদের বানানো 4টা model import করছি
 
@@ -16,11 +16,11 @@ class IncomeSourceSerializer(serializers.ModelSerializer):
         fields = "__all__"  # সব field JSON এ আসবে
 
 
-class MemberCategorySerializer(serializers.ModelSerializer):
+class ExpenseCategorySerializer(serializers.ModelSerializer):
     # MemberCategory model এর জন্য serializer
     # যেমন: {"id": 1, "name": "খাবার"} এই format এ data আসবে
     class Meta:
-        model = MemberCategory  # কোন model এর জন্য
+        model = ExpenseCategory  # কোন model এর জন্য
         fields = "__all__"  # সব field JSON এ আসবে
 
 
