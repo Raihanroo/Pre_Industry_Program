@@ -130,6 +130,25 @@
             color: #333;
         }
         
+        .btn-member {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-member:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-category {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+}
+
+.btn-category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+}
         .btn-secondary:hover {
             background: #d0d0d0;
         }
@@ -277,11 +296,13 @@
         </div>
         
         <!-- Action Buttons -->
-        <div class="action-buttons">
-            <a href="{% url 'expenses:add_expense' %}" class="btn btn-primary">+ Add New Expense</a>
-            <a href="{% url 'expenses:view_expenses' %}" class="btn btn-secondary">View All Expenses</a>
-        </div>
-        
+       <!-- Action Buttons -->
+    <div class="action-buttons">
+                <a href="{% url 'expenses:add_expense' %}" class="btn btn-primary">+ Add New Expense</a>
+              <a href="{% url 'expenses:view_expenses' %}" class="btn btn-secondary">View All Expenses</a>
+             <a href="/expenses/api/members/" class="btn btn-member">+ Add Member</a>
+            <a href="/expenses/api/categories/" class="btn btn-category">📂 Category</a>
+    </div>
         <!-- Charts -->
         <div class="charts-grid">
             <!-- Pie Chart -->
