@@ -142,6 +142,7 @@ class FamilyMember(models.Model):
         blank=True,
         related_name="members",
     )
+    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     class Meta:
         unique_together = ("user", "family_head")

@@ -49,6 +49,7 @@ class FamilyMemberSerializer(serializers.ModelSerializer):
             "address",  # ঠিকানা
             "income_source",  # আয়ের উৎস এর ID আসবে
             "income_source_name",  # আয়ের উৎস এর নাম আসবে (যেমন: "চাকরি")
+            "salary",  # মাসিক বেতন/আয়
         ]
 
 
@@ -79,8 +80,10 @@ class ExpenditureSerializer(serializers.ModelSerializer):
             "date",  # কোন তারিখে খরচ হয়েছে
             "created_at",  # কখন record করা হয়েছে
         ]
+
+
 class ExpenseSerializer(serializers.ModelSerializer):
     # Expense model এর জন্য serializer
     class Meta:
         model = Expense
-        fields = '__all__'
+        fields = "__all__"
