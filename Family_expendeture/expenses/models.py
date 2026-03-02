@@ -115,7 +115,7 @@ class FamilyMember(models.Model):
         ("MEMBER", "Member"),
         ("VIEWER", "Viewer"),
     ]
-
+    photo = models.ImageField(upload_to='member_photos/', null=True, blank=True)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="family_memberships"
     )
