@@ -4,16 +4,6 @@ from django.utils import timezone
 
 
 class Expense(models.Model):
-    CATEGORY_CHOICES = [
-        ("CLOTHS", "cloths"),
-        ("FOODS", "foods"),
-        ("GROCERIES", "Groceries"),
-        ("UTILITIES", "Utilities"),
-        ("ENTERTAINMENT", "Entertainment"),
-        ("TRANSPORT", "Transport"),
-        ("HEALTH", "Health"),
-        ("EDUCATION", "Education"),
-    ]
 
     FREQUENCY_CHOICES = [
         ("ONCE", "One Time"),
@@ -25,7 +15,13 @@ class Expense(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="expenses")
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    category = models.ForeignKey(
+        "ExpenseCategory",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="expenses",
+    )
     description = models.TextField(blank=True, null=True)
     date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
