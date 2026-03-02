@@ -5,7 +5,8 @@ from django.utils import timezone
 
 class Expense(models.Model):
     CATEGORY_CHOICES = [
-        ("RELIGION ABAYA", "Religion Abaya"),
+        ("CLOTHS", "cloths"),
+        ("FOODS", "foods"),
         ("GROCERIES", "Groceries"),
         ("UTILITIES", "Utilities"),
         ("ENTERTAINMENT", "Entertainment"),
@@ -29,8 +30,6 @@ class Expense(models.Model):
     date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    # নতুন ফিল্ড - রিকারিং খরচের জন্য
     is_recurring = models.BooleanField(default=False)
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY_CHOICES, null=True, blank=True
@@ -47,12 +46,9 @@ class Expense(models.Model):
 
 class Budget(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="budget")
-    # এখানে default=0.00 যোগ করা হয়েছে
     monthly_budget = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    # নতুন ফিল্ড - সতর্কতা সীমা
     alert_percentage = models.IntegerField(
         default=80, help_text="বাজেটের কত % খরচ হলে সতর্কতা দেবে"
     )
@@ -62,8 +58,6 @@ class Budget(models.Model):
 
 
 class SavingsGoal(models.Model):
-    """সঞ্চয় লক্ষ্য ট্র্যাকিং এর জন্য"""
-
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="savings_goals"
     )
@@ -80,20 +74,17 @@ class SavingsGoal(models.Model):
         return f"{self.user.username} - {self.goal_name}"
 
     def get_percentage(self):
-        """সঞ্চয়ের শতাংশ বের করুন"""
         if self.target_amount > 0:
             return int((self.current_amount / self.target_amount) * 100)
         return 0
 
 
 class ActivityLog(models.Model):
-    """সকল কার্যকলাপের লগ রাখুন (অডিট ট্রেইল)"""
-
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="activity_logs"
     )
-    action = models.CharField(max_length=200)  # "Created", "Updated", "Deleted"
-    model_name = models.CharField(max_length=100)  # "Expense", "Budget"
+    action = models.CharField(max_length=200)
+    model_name = models.CharField(max_length=100)
     object_id = models.IntegerField(null=True, blank=True)
     details = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -105,9 +96,24 @@ class ActivityLog(models.Model):
         return f"{self.user.username} - {self.action} {self.model_name}"
 
 
-class FamilyMember(models.Model):
-    """পরিবারের সদস্য এবং শেয়ারিং এর জন্য"""
+# ✅ নতুন — আয়ের উৎস
+class IncomeSource(models.Model):
+    name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
+
+# ✅ নতুন — Expenditure Category
+class MemberCategory(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+# ✅ আপডেট — FamilyMember
+class FamilyMember(models.Model):
     ROLE_CHOICES = [
         ("ADMIN", "Admin"),
         ("MEMBER", "Member"),
@@ -123,10 +129,42 @@ class FamilyMember(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="MEMBER")
     joined_date = models.DateTimeField(auto_now_add=True)
 
+    # ✅ নতুন fields
+    name = models.CharField(max_length=100, blank=True)
+    father_name = models.CharField(max_length=100, blank=True)
+    mother_name = models.CharField(max_length=100, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    address = models.TextField(blank=True)
+    income_source = models.ForeignKey(
+        IncomeSource,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="members",
+    )
+
     class Meta:
         unique_together = ("user", "family_head")
 
     def __str__(self):
-        return (
-            f"{self.user.username} - {self.family_head.username}'s family ({self.role})"
-        )
+        return f"{self.name or self.user.username} - {self.role}"
+
+
+# ✅ নতুন — Expenditure
+class Expenditure(models.Model):
+    member = models.ForeignKey(
+        FamilyMember, on_delete=models.CASCADE, related_name="expenditures"
+    )
+    category = models.ForeignKey(
+        MemberCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="expenditures",
+    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField(blank=True)
+    date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.member.name} → {self.category} → {self.amount}৳"

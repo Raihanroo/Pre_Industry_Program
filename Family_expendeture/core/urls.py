@@ -14,15 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('api-auth/', include('rest_framework.urls'))
 """
-
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # নিশ্চিত করুন namespace="expenses" ঠিকমতো দেওয়া আছে
-    path('expenses/', include('expenses.urls', namespace='expenses')), 
-    # হোম পেজে গেলে সরাসরি লগইন বা ড্যাশবোর্ডে পাঠানোর জন্য
+    
+    # API এবং সাধারণ ভিউ সব এই এক লাইনেই ইনক্লুড হবে
+    path('expenses/', include('expenses.urls')), 
+    
+    # ইউজার যদি শুধু মেইন ডোমেইনে আসে, তবে তাকে লগইনে পাঠিয়ে দেবে
     path('', RedirectView.as_view(url='/expenses/login/', permanent=False)),
 ]

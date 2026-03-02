@@ -1,9 +1,19 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework.routers import DefaultRouter
+from .views import ExpenseViewSet
+
+# ১. রাউটার কনফিগারেশন
+router = DefaultRouter()
+router.register(r'expenses-api', ExpenseViewSet, basename='expense-api')
 
 app_name = 'expenses'
 
 urlpatterns = [
+    # ২. DRF API URLs
+    path('api/', include(router.urls)), 
+
+    # ৩. আপনার বিদ্যমান HTML Template URLs
     path('', views.home, name='home'),
     path('add/', views.add_expense, name='add_expense'),
     path('view/', views.view_expenses, name='view_expenses'),

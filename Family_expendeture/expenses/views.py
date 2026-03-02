@@ -8,6 +8,23 @@ from .models import Expense, Budget
 from .forms import BudgetForm, ExpenseForm
 from django.contrib.auth.models import User
 import json
+from rest_framework import viewsets, permissions  # permissions যোগ করা হয়েছে
+from .models import Expense
+from .serializers import ExpenseSerializer
+
+
+class ExpenseViewSet(viewsets.ModelViewSet):
+    serializer_class = ExpenseSerializer
+    # এটি নিশ্চিত করবে যে শুধু লগইন করা ইউজাররা API ব্যবহার করতে পারবে
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # এটি নিশ্চিত করবে যে একজন ইউজার শুধু নিজের ডেটাই দেখতে/এডিট করতে পারবে
+        return Expense.objects.filter(user=self.request.user).order_by("-date")
+
+    def perform_create(self, serializer):
+        # নতুন খরচ সেভ করার সময় অটোমেটিক বর্তমান ইউজারকে অ্যাসাইন করবে
+        serializer.save(user=self.request.user)
 
 
 # Home/Dashboard View
