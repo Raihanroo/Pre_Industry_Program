@@ -3,7 +3,7 @@ from rest_framework import serializers
 # DRF (Django REST Framework) থেকে serializers import করছি
 # serializers হলো Database data কে JSON এ convert করার tool
 
-from .models import FamilyMember, IncomeSource, MemberCategory, Expenditure
+from .models import FamilyMember, IncomeSource, MemberCategory, Expenditure, Expense
 
 # আমাদের বানানো 4টা model import করছি
 
@@ -79,3 +79,8 @@ class ExpenditureSerializer(serializers.ModelSerializer):
             "date",  # কোন তারিখে খরচ হয়েছে
             "created_at",  # কখন record করা হয়েছে
         ]
+class ExpenseSerializer(serializers.ModelSerializer):
+    # Expense model এর জন্য serializer
+    class Meta:
+        model = Expense
+        fields = '__all__'
