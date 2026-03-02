@@ -9,8 +9,42 @@ from .forms import BudgetForm, ExpenseForm
 from django.contrib.auth.models import User
 import json
 from rest_framework import viewsets, permissions  # permissions যোগ করা হয়েছে
-from .models import Expense
-from .serializers import ExpenseSerializer
+from .models import Expense, FamilyMember, IncomeSource, MemberCategory, Expenditure
+from .serializers import (
+    ExpenseSerializer,
+    FamilyMemberSerializer,
+    IncomeSourceSerializer,
+    MemberCategorySerializer,
+    ExpenditureSerializer,
+)
+
+
+class IncomeSourceViewSet(viewsets.ModelViewSet):
+    # আয়ের উৎস এর CRUD operations
+    queryset = IncomeSource.objects.all()
+    serializer_class = IncomeSourceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class MemberCategoryViewSet(viewsets.ModelViewSet):
+    # Expenditure Category এর CRUD operations
+    queryset = MemberCategory.objects.all()
+    serializer_class = MemberCategorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class FamilyMemberViewSet(viewsets.ModelViewSet):
+    # Family Member এর CRUD operations
+    queryset = FamilyMember.objects.all()
+    serializer_class = FamilyMemberSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class ExpenditureViewSet(viewsets.ModelViewSet):
+    # Expenditure এর CRUD operations
+    queryset = Expenditure.objects.all()
+    serializer_class = ExpenditureSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ExpenseViewSet(viewsets.ModelViewSet):

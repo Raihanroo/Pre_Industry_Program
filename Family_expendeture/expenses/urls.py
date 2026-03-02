@@ -1,11 +1,18 @@
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
-from .views import ExpenseViewSet
+from .views import (
+    ExpenseViewSet, FamilyMemberViewSet,
+    IncomeSourceViewSet, MemberCategoryViewSet, ExpenditureViewSet
+)
 
 # ১. রাউটার কনফিগারেশন
 router = DefaultRouter()
 router.register(r'expenses-api', ExpenseViewSet, basename='expense-api')
+router.register(r'members', FamilyMemberViewSet, basename='member')
+router.register(r'income-sources', IncomeSourceViewSet, basename='income-source')
+router.register(r'categories', MemberCategoryViewSet, basename='category')
+router.register(r'expenditures', ExpenditureViewSet, basename='expenditure')
 
 app_name = 'expenses'
 
