@@ -300,7 +300,7 @@
     <div class="action-buttons">
                 <a href="{% url 'expenses:add_expense' %}" class="btn btn-primary">+ Add New Expense</a>
               <a href="{% url 'expenses:view_expenses' %}" class="btn btn-secondary">View All Expenses</a>
-             <a href="/expenses/api/members/" class="btn btn-member">+ Add Member</a>
+            <a href="{% url 'expenses:member_list' %}" class="btn btn-member">+ Add Member</a>
             <a href="/expenses/api/categories/" class="btn btn-category">📂 Category</a>
     </div>
         <!-- Charts -->
