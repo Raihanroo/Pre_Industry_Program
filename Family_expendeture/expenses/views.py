@@ -241,7 +241,7 @@ def add_member(request):
             mother_name=mother_name,
             phone_number=phone_number,
             address=address,
-            income_source_=income_source if income_source else None,
+            income_source=income_source if income_source else None,
             salary=salary if salary else None,
         )
         messages.success(request, "Member added successfully!")
