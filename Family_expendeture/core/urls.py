@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+# নিচে এই দুটি লাইন নতুন যোগ করুন
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +27,11 @@ urlpatterns = [
     # API এবং সাধারণ ভিউ সব এই এক লাইনেই ইনক্লুড হবে
     path('expenses/', include('expenses.urls')), 
     
-    # ইউজার যদি শুধু মেইন ডোমেইনে আসে, তবে তাকে লগইনে পাঠিয়ে দেবে
+    # ইউজার যদি শুধু মেইন ডোমেইনে আসে, তবে তাকে লগইনে পাঠিয়ে দেবে
     path('', RedirectView.as_view(url='/expenses/login/', permanent=False)),
+
 ]
+
+# এটি যোগ করুন যাতে ডেভেলপমেন্ট মোডে আপলোড করা ছবি দেখা যায়
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

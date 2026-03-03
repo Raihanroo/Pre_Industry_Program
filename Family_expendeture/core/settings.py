@@ -179,3 +179,10 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
     ],
 }
+
+# ==================== Media Files Settings ====================
+# ইউজার যখন ছবি আপলোড করবে তখন এই URL ব্যবহার হবে
+MEDIA_URL = '/media/'
+
+# ছবিগুলো সার্ভারের কোন ফোল্ডারে সেভ হবে তার পাথ
+MEDIA_ROOT = BASE_DIR / 'media'
