@@ -1,9 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
 from django.contrib import admin
-from .models import Expense, Budget
+from .models import IncomeSource, ExpenseCategory, FamilyMember, Expenditure, Budget, SavingsGoal, ActivityLog
 
-# আপনার মডেলগুলো এখানে রেজিস্টার করুন
-admin.site.register(Expense)
-admin.site.register(Budget)
+# নতুন মডেলগুলো রেজিস্টার করুন
+admin.site.register(IncomeSource)
+admin.site.register(ExpenseCategory)
+admin.site.register(FamilyMember)
+admin.site.register(Expenditure)
+
+# আগের গুলো যদি অলরেডি রেজিস্টার করা না থাকে
+# admin.site.register(Budget)
+# admin.site.register(SavingsGoal)
+# admin.site.register(ActivityLog)

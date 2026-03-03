@@ -113,15 +113,13 @@ class FamilyMember(models.Model):
     ROLE_CHOICES = [
         ("ADMIN", "Admin"),
         ("MEMBER", "Member"),
-        ("VISITOR", "VISITOR"),
+        ("Visitor", "Visitor"),
     ]
-    photo = models.ImageField(upload_to='member_photos/', null=True, blank=True)
+    photo = models.ImageField(upload_to="member_photos/", null=True, blank=True)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="family_memberships"
     )
-    family_head = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="family_members"
-    )
+
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="MEMBER")
     joined_date = models.DateTimeField(auto_now_add=True)
 
@@ -139,9 +137,6 @@ class FamilyMember(models.Model):
         related_name="members",
     )
     salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-
-    class Meta:
-        unique_together = ("user", "family_head")
 
     def __str__(self):
         return f"{self.name or self.user.username} - {self.role}"
