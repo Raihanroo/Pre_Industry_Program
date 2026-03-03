@@ -39,7 +39,6 @@ class FamilyMemberSerializer(serializers.ModelSerializer):
         fields = [
             "id",  # Member এর unique ID
             "user",  # কোন User এর সাথে linked
-            "family_head",  # পরিবারের প্রধান কে
             "role",  # ADMIN / MEMBER / VIEWER
             "joined_date",  # কবে যোগ দিয়েছে
             "name",  # Member এর নাম

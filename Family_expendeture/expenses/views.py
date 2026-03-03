@@ -223,27 +223,25 @@ def add_member(request):
     if request.method == "POST":
         # Form data নেওয়া
         user_id = request.POST.get("user")
-        family_head_id = request.POST.get("family_head")
         role = request.POST.get("role")
         name = request.POST.get("name")
         father_name = request.POST.get("father_name")
         mother_name = request.POST.get("mother_name")
         phone_number = request.POST.get("phone_number")
         address = request.POST.get("address")
-        income_source_id = request.POST.get("income_source")
+        income_source = request.POST.get("income_source")
         salary = request.POST.get("salary")
 
         # Member save করা
         FamilyMember.objects.create(
             user_id=user_id,
-            family_head_id=family_head_id,
             role=role,
             name=name,
             father_name=father_name,
             mother_name=mother_name,
             phone_number=phone_number,
             address=address,
-            income_source_id=income_source_id if income_source_id else None,
+            income_source_=income_source if income_source else None,
             salary=salary if salary else None,
         )
         messages.success(request, "Member added successfully!")
@@ -251,10 +249,8 @@ def add_member(request):
 
     # GET request — form দেখাও
     users = User.objects.all()
-    income_sources = IncomeSource.objects.all()
     context = {
         "users": users,
-        "income_sources": income_sources,
         "roles": FamilyMember.ROLE_CHOICES,
     }
     return render(request, "expenses/add_member.html", context)
