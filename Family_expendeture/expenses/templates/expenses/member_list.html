@@ -133,9 +133,10 @@
                         <td>
                             {% if member.photo %}
                             <img src="{{ member.photo.url }}" alt="{{ member.name }}"
-                                style="width: 50px; height: 50px; border-radius: 50%;">
+                                style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
                             {% else %}
-                            <img src="/static/default-avatar.png" alt="No Photo" style="width: 50px; height: 50px;">
+                            <img src="https://ui-avatars.com/api/?name={{ member.name }}&background=random"
+                                alt="No Photo" style="width: 45px; height: 45px; border-radius: 50%;">
                             {% endif %}
                         </td>
                         <td>{{ member.name }}</td>
