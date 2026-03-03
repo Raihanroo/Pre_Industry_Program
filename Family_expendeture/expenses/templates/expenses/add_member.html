@@ -185,17 +185,12 @@
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label>💼 Income Source</label>
-                    <select name="income_source">
-                        <option value="">--------</option>
-                        {% for source in income_sources %}
-                        <option value="{{ source.id }}">{{ source.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
+          <div class="form-row">
+    <div class="form-group">
+        <label>💼 Income Source</label>
+        <input type="text" name="income_source" placeholder="আয়ের উৎস লিখুন (উদা: ব্যবসা, চাকরি)" required>
+    </div>
+</div>
 
             <div class="form-group">
                 <label>🏠 Address</label>
