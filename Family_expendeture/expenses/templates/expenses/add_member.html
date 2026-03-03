@@ -137,19 +137,10 @@
                 </div>
                 <input type="file" id="photo-input" name="photo" accept="image/*" style="display:none;">
             </div>
-
             <div class="form-row">
                 <div class="form-group">
                     <label>👤 User</label>
                     <select name="user" required>
-                        {% for user in users %}
-                        <option value="{{ user.id }}">{{ user.username }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>👑 Family Head</label>
-                    <select name="family_head" required>
                         {% for user in users %}
                         <option value="{{ user.id }}">{{ user.username }}</option>
                         {% endfor %}

@@ -107,10 +107,12 @@ def home(request):
     # Prepare data for charts
     pie_labels = []
     pie_data = []
-    # This creates a dictionary of {id: name} from your actual database categories
+    # এটি চার্টের জন্য লেবেল সেট করবে
     category_dict = {cat.id: cat.name for cat in ExpenseCategory.objects.all()}
     for item in category_breakdown:
-        pie_labels.append(category_dict.get(item["category"], item["category"]))
+        # item["category"] যদি ID হয়, তবে নাম খুঁজে বের করবে
+        cat_name = category_dict.get(item["category"], "Unknown")
+        pie_labels.append(cat_name)
         pie_data.append(float(item["total"]))
 
     bar_labels = []
@@ -160,7 +162,7 @@ def view_expenses(request):
     category = request.GET.get("category")
     if category:
         expenses = expenses.filter(category=category)
-        
+
     from_date = request.GET.get("from_date")
     to_date = request.GET.get("to_date")
 
@@ -173,7 +175,7 @@ def view_expenses(request):
 
     context = {
         "expenses": expenses,
-        "categories": Expense.CATEGORY_CHOICES,
+        "categories": ExpenseCategory.objects.all(),
         "total_amount": total_amount,
     }
     return render(request, "expenses/view_expenses.html", context)
