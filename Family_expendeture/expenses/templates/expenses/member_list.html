@@ -1,12 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Member List</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; padding: 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -17,20 +28,27 @@
             align-items: center;
             margin-bottom: 30px;
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 8px 16px;
             border-radius: 5px;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .section {
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
+
         .section h2 {
             color: #333;
             margin-bottom: 20px;
@@ -38,7 +56,12 @@
             border-bottom: 2px solid #667eea;
             padding-bottom: 15px;
         }
-        table { width: 100%; border-collapse: collapse; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
         table th {
             background: #f5f7fa;
             padding: 15px;
@@ -47,8 +70,17 @@
             color: #555;
             border-bottom: 2px solid #e0e0e0;
         }
-        table td { padding: 15px; border-bottom: 1px solid #e0e0e0; color: #666; }
-        table tr:hover { background: #f9f9f9; }
+
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #666;
+        }
+
+        table tr:hover {
+            background: #f9f9f9;
+        }
+
         .role-badge {
             display: inline-block;
             background: #667eea;
@@ -57,6 +89,7 @@
             border-radius: 20px;
             font-size: 12px;
         }
+
         .btn-add {
             display: inline-block;
             padding: 12px 25px;
@@ -69,6 +102,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="navbar">
         <h1>👥 Family Members</h1>
@@ -81,9 +115,10 @@
         <div class="section">
             <h2>👥 All Members</h2>
             {% if members %}
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
+                        <th>Photo</th>
                         <th>Name</th>
                         <th>Father's Name</th>
                         <th>Phone</th>
@@ -95,12 +130,20 @@
                 <tbody>
                     {% for member in members %}
                     <tr>
+                        <td>
+                            {% if member.photo %}
+                            <img src="{{ member.photo.url }}" alt="{{ member.name }}"
+                                style="width: 50px; height: 50px; border-radius: 50%;">
+                            {% else %}
+                            <img src="/static/default-avatar.png" alt="No Photo" style="width: 50px; height: 50px;">
+                            {% endif %}
+                        </td>
                         <td>{{ member.name }}</td>
                         <td>{{ member.father_name }}</td>
                         <td>{{ member.phone_number }}</td>
-                        <td>{{ member.income_source.name|default:"—" }}</td>
-                        <td>৳ {{ member.salary|default:"—" }}</td>
-                        <td><span class="role-badge">{{ member.role }}</span></td>
+                        <td>{{ member.income_source }}</td>
+                        <td>৳ {{ member.salary }}</td>
+                        <td>{{ member.role }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -111,4 +154,5 @@
         </div>
     </div>
 </body>
+
 </html>
