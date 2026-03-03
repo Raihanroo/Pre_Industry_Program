@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class Expense(models.Model):
-
+    # ... your other fields (amount, date, etc.)
     FREQUENCY_CHOICES = [
         ("ONCE", "One Time"),
         ("DAILY", "Daily"),
@@ -113,7 +113,7 @@ class FamilyMember(models.Model):
     ROLE_CHOICES = [
         ("ADMIN", "Admin"),
         ("MEMBER", "Member"),
-        ("VIEWER", "Viewer"),
+        ("VISITOR", "VISITOR"),
     ]
     photo = models.ImageField(upload_to='member_photos/', null=True, blank=True)
     user = models.ForeignKey(

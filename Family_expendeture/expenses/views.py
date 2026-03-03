@@ -107,8 +107,9 @@ def home(request):
     # Prepare data for charts
     pie_labels = []
     pie_data = []
+    # This creates a dictionary of {id: name} from your actual database categories
+    category_dict = {cat.id: cat.name for cat in ExpenseCategory.objects.all()}
     for item in category_breakdown:
-        category_dict = dict(Expense.CATEGORY_CHOICES)
         pie_labels.append(category_dict.get(item["category"], item["category"]))
         pie_data.append(float(item["total"]))
 
@@ -159,7 +160,7 @@ def view_expenses(request):
     category = request.GET.get("category")
     if category:
         expenses = expenses.filter(category=category)
-
+        
     from_date = request.GET.get("from_date")
     to_date = request.GET.get("to_date")
 
