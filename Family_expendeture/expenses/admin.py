@@ -4,7 +4,6 @@ from django.contrib import admin
 from .models import IncomeSource, ExpenseCategory, FamilyMember, Expenditure, Budget, SavingsGoal, ActivityLog
 
 # নতুন মডেলগুলো রেজিস্টার করুন
-admin.site.register(IncomeSource)
 admin.site.register(ExpenseCategory)
 admin.site.register(FamilyMember)
 admin.site.register(Expenditure)
