@@ -265,25 +265,34 @@ def member_list(request):
 
 
 # এডিট করার জন্য
+# views.py - Updated edit_member function
 def edit_member(request, pk):
     member = get_object_or_404(FamilyMember, id=pk)
     if request.method == "POST":
         form = FamilyMemberForm(request.POST, request.FILES, instance=member)
         if form.is_valid():
             form.save()
-            return redirect("expenses:all_members")  # আপনার লিস্ট পেজের নাম
+            messages.success(request, "Member updated successfully!")
+            return redirect("expenses:member_list")
     else:
-        form = FamilyMemberForm(instance=member)  # এটি পুরনো ডাটা লোড করবে
+        form = FamilyMemberForm(instance=member)
+    
+    # Ekhane users ebong roles add kora hoyeche jate dropdown blank na thake
+    users = User.objects.all() 
     return render(
-        request, "expenses/add_member.html", {"form": form, "edit_mode": True}
+        request, "expenses/add_member.html", {
+            "form": form, 
+            "edit_mode": True,
+            "users": users,                      # Missing logic added
+            "roles": FamilyMember.ROLE_CHOICES   # Missing logic added
+        }
     )
-
 
 # ডিলিট করার জন্য
 def delete_member(request, pk):
     member = get_object_or_404(FamilyMember, id=pk)
     member.delete()
-    return redirect("expenses:all_members")
+    return redirect("expenses:member_list")
 
 
 # add category

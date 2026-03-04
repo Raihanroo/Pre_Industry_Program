@@ -1,197 +1,78 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Member</title>
+    <title>{% if edit_mode %}Edit Member{% else %}Add Member{% endif %}</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #f5f7fa;
-            padding: 20px;
-        }
-
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 5px;
-        }
-
-        .form-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .form-container h2 {
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 24px;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #555;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .btn-submit:hover {
-            opacity: 0.9;
-        }
-
-        .messages {
-            margin-bottom: 20px;
-        }
-
-        .alert {
-            padding: 12px 20px;
-            border-radius: 8px;
-            background: #d4edda;
-            color: #155724;
-            margin-bottom: 10px;
-        }
-
-        .photo-upload-area {
-            border: 2px dashed #667eea;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .photo-upload-area:hover {
-            background: #f0f4ff;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; padding: 20px; color: #333; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+        .navbar a { color: white; text-decoration: none; background: rgba(255, 255, 255, 0.2); padding: 8px 16px; border-radius: 8px; font-size: 14px; transition: 0.3s; }
+        .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 35px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #4a5568; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; outline: none; transition: 0.3s; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .photo-upload-area { border: 2px dashed #cbd5e0; border-radius: 12px; padding: 25px; text-align: center; cursor: pointer; background: #f8fafc; }
+        .alert { padding: 12px; border-radius: 8px; background: #def7ec; color: #03543f; margin-bottom: 20px; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
     </style>
 </head>
-
 <body>
     <div class="navbar">
         <div style="display:flex; align-items:center; gap:15px;">
-            <div
-                style="width:55px; height:55px; border-radius:50%; overflow:hidden; background:rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; border:2px solid white;">
-                <img id="preview-photo" src="" alt="" style="width:100%; height:100%; object-fit:cover; display:none;">
-                <span id="default-icon" style="font-size:28px;">👤</span>
+            <div style="width:50px; height:50px; border-radius:50%; overflow:hidden; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; border:2px solid white;">
+                {% if form.instance.photo %}
+                    <img id="preview-photo" src="{{ form.instance.photo.url }}" style="width:100%; height:100%; object-fit:cover;">
+                {% else %}
+                    <img id="preview-photo" src="#" style="width:100%; height:100%; object-fit:cover; display:none;">
+                {% endif %}
+                <span id="default-icon" {% if form.instance.photo %}style="display:none;"{% endif %}>👤</span>
             </div>
-            <h1>Add New Member</h1>
+            <h1>{% if edit_mode %}Edit Member{% else %}Add New Member{% endif %}</h1>
         </div>
-        <a href="{% url 'expenses:home' %}">← Back to Dashboard</a>
+        <a href="{% url 'expenses:member_list' %}">← Back to List</a>
     </div>
 
     <div class="form-container">
         <h2>👤 Member Details</h2>
-
         {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <div class="alert">{{ message }}</div>
-            {% endfor %}
-        </div>
+            {% for message in messages %}<div class="alert">{{ message }}</div>{% endfor %}
         {% endif %}
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-
-            <!-- Photo Upload -->
+            
             <div class="form-group">
                 <label>📷 Member Photo</label>
                 <div class="photo-upload-area" onclick="document.getElementById('photo-input').click()">
-                    <p>📁 Click to upload photo</p>
-                    <p style="font-size:12px; color:#999;">JPG, PNG supported</p>
+                    <p style="color: #667eea; font-weight: 600;">📁 Click to upload photo</p>
                 </div>
                 <input type="file" id="photo-input" name="photo" accept="image/*" style="display:none;">
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>👤 User</label>
-                    <select name="user" required>
-                        {% for user in users %}
-                        <option value="{{ user.id }}">{{ user.username }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>📝 Full Name</label>
-                    <input type="text" name="name" placeholder="নাম লিখুন" required>
+                    <label>👤 User Account</label>
+                    <select name="user" required>
+                        <option value="" disabled {% if not form.instance.pk %}selected{% endif %}>Select User</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}" {% if form.instance.user.id == user.id %}selected{% endif %}>
+                                {{ user.username }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>🎭 Role</label>
                     <select name="role">
                         {% for value, label in roles %}
-                        <option value="{{ value }}">{{ label }}</option>
+                            <option value="{{ value }}" {% if form.instance.role == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -199,38 +80,45 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>👨 Father's Name</label>
-                    <input type="text" name="father_name" placeholder="বাবার নাম">
+                    <label>Full Name</label>
+                    <input type="text" name="name" value="{{ form.instance.name|default:'' }}" placeholder="নাম লিখুন" required>
                 </div>
                 <div class="form-group">
-                    <label>👩 Mother's Name</label>
-                    <input type="text" name="mother_name" placeholder="মায়ের নাম">
+                    <label>Phone Number</label>
+                    <input type="text" name="phone_number" value="{{ form.instance.phone_number|default:'' }}" placeholder="ফোন নম্বর">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>📞 Phone Number</label>
-                    <input type="text" name="phone_number" placeholder="ফোন নম্বর">
+                    <label>Father's Name</label>
+                    <input type="text" name="father_name" value="{{ form.instance.father_name|default:'' }}" placeholder="বাবার নাম">
                 </div>
                 <div class="form-group">
-                    <label>💰 Salary</label>
-                    <input type="number" name="salary" placeholder="মাসিক আয়" step="0.01">
+                    <label>Mother's Name</label>
+                    <input type="text" name="mother_name" value="{{ form.instance.mother_name|default:'' }}" placeholder="মায়ের নাম">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>💼 Income Source</label>
-                    <input type="text" name="income_source" class="form-control" placeholder="আয়ের উৎস লিখুন" required>
+                    <label>Monthly Salary</label>
+                    <input type="number" name="salary" value="{{ form.instance.salary|stringformat:'s'|default:'' }}" placeholder="মাসিক আয়" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Income Source</label>
+                    <input type="text" name="income_source" value="{{ form.instance.income_source|default:'' }}" placeholder="আয়ের উৎস লিখুন" required>
                 </div>
             </div>
+
             <div class="form-group">
-                <label>🏠 Address</label>
-                <textarea name="address" rows="3" placeholder="সম্পূর্ণ ঠিকানা লিখুন"></textarea>
+                <label>Full Address</label>
+                <textarea name="address" rows="3" placeholder="সম্পূর্ণ ঠিকানা লিখুন">{{ form.instance.address|default:'' }}</textarea>
             </div>
 
-            <button type="submit" class="btn-submit">✅ Save Member</button>
+            <button type="submit" class="btn-submit">
+                {% if edit_mode %}✅ Update Information{% else %}✅ Save Member Information{% endif %}
+            </button>
         </form>
     </div>
 
@@ -240,8 +128,9 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    document.getElementById('preview-photo').src = e.target.result;
-                    document.getElementById('preview-photo').style.display = 'block';
+                    const preview = document.getElementById('preview-photo');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
                     document.getElementById('default-icon').style.display = 'none';
                 }
                 reader.readAsDataURL(file);
@@ -249,5 +138,4 @@
         });
     </script>
 </body>
-
 </html>
