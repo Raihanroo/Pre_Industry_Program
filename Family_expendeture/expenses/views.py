@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db.models import Sum, Count
 from datetime import datetime, timedelta
 from .models import Expense, Budget
-from .forms import BudgetForm, ExpenseForm
+from .forms import BudgetForm, ExpenseForm, FamilyMemberForm
 from django.contrib.auth.models import User
 import json
 from rest_framework import viewsets, permissions  # permissions যোগ করা হয়েছে
@@ -262,6 +262,28 @@ def member_list(request):
     members = FamilyMember.objects.all()
     context = {"members": members}
     return render(request, "expenses/member_list.html", context)
+
+
+# এডিট করার জন্য
+def edit_member(request, pk):
+    member = get_object_or_404(FamilyMember, id=pk)
+    if request.method == "POST":
+        form = FamilyMemberForm(request.POST, request.FILES, instance=member)
+        if form.is_valid():
+            form.save()
+            return redirect("expenses:all_members")  # আপনার লিস্ট পেজের নাম
+    else:
+        form = FamilyMemberForm(instance=member)  # এটি পুরনো ডাটা লোড করবে
+    return render(
+        request, "expenses/add_member.html", {"form": form, "edit_mode": True}
+    )
+
+
+# ডিলিট করার জন্য
+def delete_member(request, pk):
+    member = get_object_or_404(FamilyMember, id=pk)
+    member.delete()
+    return redirect("expenses:all_members")
 
 
 # add category

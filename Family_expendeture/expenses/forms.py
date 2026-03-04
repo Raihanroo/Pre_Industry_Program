@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Expense, ExpenseCategory
-from .models import Budget
+from .models import Budget, FamilyMember
 
 
 class ExpenseForm(forms.ModelForm):
@@ -84,4 +84,23 @@ class BudgetForm(forms.ModelForm):
                     "min": "0",
                 }
             )
+        }
+
+
+class FamilyMemberForm(forms.ModelForm):
+    class Meta:
+        model = FamilyMember
+        fields = [
+            "name",
+            "father_name",
+            "phone_number",
+            "income_source",
+            "salary",
+            "role",
+            "photo",
+        ]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "father_name": forms.TextInput(attrs={"class": "form-control"}),
+            # এভাবেই অন্য ফিল্ডগুলোতে CSS ক্লাস যোগ করা যায়
         }

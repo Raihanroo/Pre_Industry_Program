@@ -38,4 +38,7 @@ urlpatterns = [
     path("categories/manage/", views.add_category, name="add_category"),
     path("categories/edit/<int:pk>/", views.edit_category, name="edit_category"),
     path("categories/delete/<int:pk>/", views.delete_category, name="delete_category"),
+    # মেম্বার এডিট এবং ডিলিট করার পাথ
+    path("members/edit/<int:pk>/", views.edit_member, name="edit_member"),
+    path("members/delete/<int:pk>/", views.delete_member, name="delete_member"),
 ]

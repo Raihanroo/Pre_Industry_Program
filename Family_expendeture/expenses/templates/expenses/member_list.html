@@ -5,7 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Member List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* আপনার আগের স্টাইলগুলো এখানে থাকবে */
         * {
             margin: 0;
             padding: 0;
@@ -75,19 +77,11 @@
             padding: 15px;
             border-bottom: 1px solid #e0e0e0;
             color: #666;
+            vertical-align: middle;
         }
 
         table tr:hover {
             background: #f9f9f9;
-        }
-
-        .role-badge {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
         }
 
         .btn-add {
@@ -99,6 +93,31 @@
             border-radius: 8px;
             font-weight: 600;
             margin-bottom: 20px;
+        }
+
+        /* বাটনগুলোর নতুন স্টাইল */
+        .btn-edit {
+            color: #667eea;
+            text-decoration: none;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .btn-delete {
+            color: #e53e3e;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .btn-edit:hover {
+            color: #764ba2;
+        }
+
+        .btn-delete:hover {
+            color: #c53030;
         }
     </style>
 </head>
@@ -125,6 +144,7 @@
                         <th>Income Source</th>
                         <th>Salary</th>
                         <th>Role</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,7 +164,19 @@
                         <td>{{ member.phone_number }}</td>
                         <td>{{ member.income_source }}</td>
                         <td>৳ {{ member.salary }}</td>
-                        <td>{{ member.role }}</td>
+                        <td><span class="role-badge">{{ member.role }}</span></td>
+
+                        <td>
+                            <a href="{% url 'expenses:edit_member' member.id %}" class="btn-edit" title="Edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+
+                            <a href="{% url 'expenses:delete_member' member.id %}" class="btn-delete"
+                                onclick="return confirm('আপনি কি নিশ্চিত যে আপনি এই মেম্বারকে ডিলিট করতে চান?')"
+                                title="Delete">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
