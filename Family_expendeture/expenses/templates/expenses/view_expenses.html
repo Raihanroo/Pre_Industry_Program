@@ -317,15 +317,13 @@
                     <div class="filter-group">
                         <label for="category">Category</label>
                         <select name="category" id="category">
-                            <option value="">-- All Categories --</option>
-                            <option value="CLOTHS" {% if request.GET.category == 'RELIGION_ABAYA' %}selected{% endif %}>Religion Abaya</option>
-                            <option value="GROCERIES" {% if request.GET.category == 'GROCERIES' %}selected{% endif %}>Groceries</option>
-                            <option value="UTILITIES" {% if request.GET.category == 'UTILITIES' %}selected{% endif %}>Utilities</option>
-                            <option value="ENTERTAINMENT" {% if request.GET.category == 'ENTERTAINMENT' %}selected{% endif %}>Entertainment</option>
-                            <option value="TRANSPORT" {% if request.GET.category == 'TRANSPORT' %}selected{% endif %}>Transport</option>
-                            <option value="HEALTH" {% if request.GET.category == 'HEALTH' %}selected{% endif %}>Health</option>
-                            <option value="EDUCATION" {% if request.GET.category == 'EDUCATION' %}selected{% endif %}>Education</option>
-                        </select>
+    <option value="">-- All Categories --</option>
+    {% for cat in categories %}
+        <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"i" %}selected{% endif %}>
+            {{ cat.name }}
+        </option>
+    {% endfor %}
+</select>
                     </div>
                     
                     <div class="filter-group">
@@ -389,7 +387,7 @@
                     {% for expense in expenses %}
                     <tr>
                         <td>{{ expense.date|date:"d M, Y" }}</td>
-                        <td><span class="category-badge">{{ expense.get_category_display }}</span></td>
+                        <td><span class="category-badge">{{expense.category.name}}</span></td>
                         <td>{{ expense.description|truncatewords:5 }}</td>
                         <td><span class="amount-badge">৳{{ expense.amount|floatformat:2 }}</span></td>
                         <td>

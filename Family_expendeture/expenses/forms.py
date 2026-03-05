@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Expense, ExpenseCategory
-from .models import Budget, FamilyMember
+from .models import Expense, ExpenseCategory,Budget,FamilyMember
 
 
 class ExpenseForm(forms.ModelForm):
@@ -10,19 +9,19 @@ class ExpenseForm(forms.ModelForm):
 
     class Meta:
         model = Expense
-        fields = ["amount", "category", "description", "date"]
+        # এখানে member, is_recurring, frequency, recurring_end_date যোগ করা হয়েছে
+        fields = ["date", "category", "member", "amount", "description", "is_recurring", "frequency", "recurring_end_date"]
+        
         widgets = {
+            "date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            "category": forms.Select(attrs={"class": "form-control"}),
+            "member": forms.Select(attrs={"class": "form-control"}), # নতুন যোগ করা হয়েছে
             "amount": forms.NumberInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "৳ 0.00",
                     "step": "0.01",
                     "min": "0",
-                }
-            ),
-            "category": forms.Select(
-                attrs={
-                    "class": "form-control",
                 }
             ),
             "description": forms.Textarea(
@@ -32,7 +31,10 @@ class ExpenseForm(forms.ModelForm):
                     "placeholder": "খরচের বর্ণনা লিখুন",
                 }
             ),
-            "date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            # রিকারিং খরচের জন্য নতুন উইজেট
+            "is_recurring": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "frequency": forms.Select(attrs={"class": "form-control"}),
+            "recurring_end_date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -40,6 +42,14 @@ class ExpenseForm(forms.ModelForm):
         self.fields["description"].required = False
         self.fields["category"].queryset = ExpenseCategory.objects.all()
         self.fields["category"].empty_label = "-- Category Select করুন --"
+        
+        # মেম্বার ড্রপডাউন সেটআপ
+        self.fields["member"].queryset = FamilyMember.objects.all()
+        self.fields["member"].empty_label = "-- মেম্বার সিলেক্ট করুন --"
+        
+        # রিকারিং অপশনগুলো শুরুতে বাধ্যতামূলক নয়
+        self.fields["frequency"].required = False
+        self.fields["recurring_end_date"].required = False
 
 
 class UserCreationFormCustom(UserCreationForm):

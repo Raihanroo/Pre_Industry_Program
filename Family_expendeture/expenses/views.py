@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Sum, Count
 from datetime import datetime, timedelta
-from .models import Expense, Budget
-from .forms import BudgetForm, ExpenseForm, FamilyMemberForm
-from django.contrib.auth.models import User
 import json
-from rest_framework import viewsets, permissions  # permissions যোগ করা হয়েছে
+
+# REST Framework ইম্পোর্ট
+from rest_framework import viewsets, permissions
+
+# মডেল ইম্পোর্ট (সবগুলো একবারে)
 from .models import (
     Expense,
     Budget,
@@ -17,6 +19,11 @@ from .models import (
     ExpenseCategory,
     Expenditure,
 )
+
+# ফর্ম ইম্পোর্ট
+from .forms import BudgetForm, ExpenseForm, FamilyMemberForm
+
+# সিরিয়ালাইজার ইম্পোর্ট
 from .serializers import (
     ExpenseSerializer,
     FamilyMemberSerializer,
@@ -157,11 +164,16 @@ def add_expense(request):
 @login_required
 def view_expenses(request):
     user = request.user
-    expenses = Expense.objects.filter(user=user).order_by("-date")
 
-    category = request.GET.get("category")
-    if category:
-        expenses = expenses.filter(category=category)
+    # পরিবর্তন ১: .select_related('category') যোগ করা হয়েছে যাতে দ্রুত ডাটা লোড হয়
+    expenses = (
+        Expense.objects.filter(user=user).select_related("category").order_by("-date")
+    )
+
+    category_id = request.GET.get("category")
+    # পরিবর্তন ২: ক্যাটাগরি আইডি দিয়ে ফিল্টার করা হচ্ছে
+    if category_id:
+        expenses = expenses.filter(category_id=category_id)
 
     from_date = request.GET.get("from_date")
     to_date = request.GET.get("to_date")
@@ -276,17 +288,20 @@ def edit_member(request, pk):
             return redirect("expenses:member_list")
     else:
         form = FamilyMemberForm(instance=member)
-    
+
     # Ekhane users ebong roles add kora hoyeche jate dropdown blank na thake
-    users = User.objects.all() 
+    users = User.objects.all()
     return render(
-        request, "expenses/add_member.html", {
-            "form": form, 
+        request,
+        "expenses/add_member.html",
+        {
+            "form": form,
             "edit_mode": True,
-            "users": users,                      # Missing logic added
-            "roles": FamilyMember.ROLE_CHOICES   # Missing logic added
-        }
+            "users": users,  # Missing logic added
+            "roles": FamilyMember.ROLE_CHOICES,  # Missing logic added
+        },
     )
+
 
 # ডিলিট করার জন্য
 def delete_member(request, pk):

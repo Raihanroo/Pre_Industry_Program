@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 class Expense(models.Model):
-    # ... your other fields (amount, date, etc.)
     FREQUENCY_CHOICES = [
         ("ONCE", "One Time"),
         ("DAILY", "Daily"),
@@ -22,6 +21,16 @@ class Expense(models.Model):
         blank=True,
         related_name="expenses",
     )
+
+    # এখানে ভুল ছিল: on_relative_name বদলে related_name হবে
+    member = models.ForeignKey(
+        "FamilyMember",
+        on_delete=models.CASCADE,
+        related_name="expenses",
+        null=True,  # ডাটাবেজে খালি থাকার অনুমতি দেয়
+        blank=True,  # ফর্মে খালি রাখার অনুমতি দেয়
+    )
+
     description = models.TextField(blank=True, null=True)
     date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -37,7 +46,9 @@ class Expense(models.Model):
         verbose_name_plural = "Expenses"
 
     def __str__(self):
-        return f"{self.user.username} - {self.category} - {self.amount} টাকা"
+        # Category null হতে পারে, তাই safe handling করা ভালো
+        category_name = self.category.name if self.category else "No Category"
+        return f"{self.user.username} - {category_name} - {self.amount} টাকা"
 
 
 class Budget(models.Model):
