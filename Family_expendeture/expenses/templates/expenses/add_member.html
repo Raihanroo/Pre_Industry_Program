@@ -14,9 +14,11 @@
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; color: #4a5568; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; outline: none; transition: 0.3s; }
+        .form-group input:focus, .form-group select:focus { border-color: #667eea; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .photo-upload-area { border: 2px dashed #cbd5e0; border-radius: 12px; padding: 25px; text-align: center; cursor: pointer; background: #f8fafc; }
+        .photo-upload-area { border: 2px dashed #cbd5e0; border-radius: 12px; padding: 25px; text-align: center; cursor: pointer; background: #f8fafc; transition: 0.3s; }
+        .photo-upload-area:hover { border-color: #667eea; background: #f0f4ff; }
         .alert { padding: 12px; border-radius: 8px; background: #def7ec; color: #03543f; margin-bottom: 20px; }
         @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
     </style>
@@ -54,28 +56,16 @@
                 <input type="file" id="photo-input" name="photo" accept="image/*" style="display:none;">
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label>👤 User Account</label>
-                    <select name="user" required>
-                        <option value="" disabled {% if not form.instance.pk %}selected{% endif %}>Select User</option>
-                        {% for user in users %}
-                            <option value="{{ user.id }}" {% if form.instance.user.id == user.id %}selected{% endif %}>
-                                {{ user.username }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>🎭 Role</label>
-                    <select name="role">
-                        {% for value, label in roles %}
-                            <option value="{{ value }}" {% if form.instance.role == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
+            <div class="form-group">
+                <label>🎭 Role</label>
+                <select name="role" required>
+                    <option value="" disabled selected>Select Role</option>
+                    {% for value, label in roles %}
+                        <option value="{{ value }}" {% if form.instance.role == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-row">

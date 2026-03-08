@@ -1,23 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Expenses - Family Expense</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fa;
             padding: 20px;
         }
-        
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -27,351 +29,222 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        
-        .navbar h1 {
-            font-size: 24px;
-        }
-        
+
         .navbar-links {
             display: flex;
             gap: 15px;
         }
-        
+
         .navbar a {
             color: white;
             text-decoration: none;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             transition: all 0.3s;
+            font-size: 14px;
         }
-        
-        .navbar a:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .filters {
             background: white;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
         }
-        
-        .filters h3 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-        
+
         .filter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
         }
-        
+
         .filter-group {
             display: flex;
             flex-direction: column;
         }
-        
+
         .filter-group label {
             color: #555;
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 14px;
         }
-        
+
         .filter-group select,
         .filter-group input {
             padding: 10px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        .filter-group select:focus,
-        .filter-group input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        
-        .filter-buttons {
+
+        .action-row {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .btn-filter {
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-filter:hover {
-            background: #764ba2;
-        }
-        
-        .btn-reset {
-            padding: 10px 20px;
-            background: #e0e0e0;
-            color: #333;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
+            justify-content: space-between;
             align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        
-        .btn-reset:hover {
-            background: #d0d0d0;
-        }
-        
-        .expenses-table {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            overflow-x: auto;
-        }
-        
-        .expenses-table h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 22px;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 15px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        table th {
-            background: #f5f7fa;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #555;
-            border-bottom: 2px solid #e0e0e0;
-        }
-        
-        table td {
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
-            color: #666;
-        }
-        
-        table tr:hover {
-            background: #f9f9f9;
-        }
-        
-        .category-badge {
-            display: inline-block;
+
+        .btn-filter {
+            padding: 10px 25px;
             background: #667eea;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .amount-badge {
-            font-weight: 700;
-            color: #f97316;
-            font-size: 16px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn-edit {
-            padding: 6px 12px;
-            background: #10b981;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-edit:hover {
-            background: #059669;
-        }
-        
-        .btn-delete {
-            padding: 6px 12px;
-            background: #f97316;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-delete:hover {
-            background: #ea580c;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-        
-        .empty-state p {
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-        
-        .btn-primary {
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             border-radius: 8px;
-            text-decoration: none;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
         }
-        
+
         .stats-bar {
             background: white;
-            padding: 20px 25px;
+            padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             margin-bottom: 30px;
             display: flex;
             justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-item .label {
-            color: #666;
-            font-size: 12px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        
+
         .stat-item .value {
             font-size: 24px;
             font-weight: 700;
             color: #667eea;
         }
+
+        .expenses-table {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table th {
+            background: #f5f7fa;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .category-badge {
+            background: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .amount-badge {
+            font-weight: 700;
+            color: #f97316;
+        }
+
+        .btn-edit {
+            color: #10b981;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .btn-delete {
+            color: #f97316;
+            font-size: 18px;
+        }
     </style>
 </head>
+
 <body>
     <div class="navbar">
         <h1>📋 Expense Manager</h1>
         <div class="navbar-links">
-            <a href="{% url 'expenses:home' %}">Dashboard</a>
-            <a href="{% url 'expenses:add_expense' %}">+ Add Expense</a>
-            <a href="{% url 'expenses:logout' %}">Logout</a>
+            <a href="{% url 'expenses:home' %}"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="{% url 'expenses:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
-    
+
     <div class="container">
-        <!-- Filter Section -->
         <div class="filters">
-            <h3>🔍 Filter Expenses</h3>
+            <h3><i class="fas fa-filter"></i> Filter Expenses</h3>
             <form method="GET" action="{% url 'expenses:view_expenses' %}">
                 <div class="filter-grid">
                     <div class="filter-group">
-                        <label for="category">Category</label>
-                        <select name="category" id="category">
-    <option value="">-- All Categories --</option>
-    {% for cat in categories %}
-        <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"i" %}selected{% endif %}>
-            {{ cat.name }}
-        </option>
-    {% endfor %}
-</select>
+                        <label>Category</label>
+                        <select name="category">
+                            <option value="">-- All Categories --</option>
+                            {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"i" %}selected{% endif %}>
+                                {{ cat.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    
                     <div class="filter-group">
-                        <label for="from_date">From Date</label>
-                        <input 
-                            type="date" 
-                            name="from_date" 
-                            id="from_date"
-                            value="{{ request.GET.from_date }}"
-                        >
+                        <label>From Date</label>
+                        <input type="date" name="from_date" value="{{ request.GET.from_date }}">
                     </div>
-                    
                     <div class="filter-group">
-                        <label for="to_date">To Date</label>
-                        <input 
-                            type="date" 
-                            name="to_date" 
-                            id="to_date"
-                            value="{{ request.GET.to_date }}"
-                        >
+                        <label>To Date</label>
+                        <input type="date" name="to_date" value="{{ request.GET.to_date }}">
                     </div>
                 </div>
-                
-                <div class="filter-buttons">
-                    <button type="submit" class="btn-filter">🔎 Search</button>
-                    <a href="{% url 'expenses:view_expenses' %}" class="btn-reset">↺ Reset</a>
+
+                <div class="action-row">
+                    <div>
+                        <button type="submit" class="btn-filter"><i class="fas fa-search"></i> Apply Filter</button>
+                        <a href="{% url 'expenses:view_expenses' %}"
+                            style="margin-left:10px; color:#666; text-decoration:none;">↺ Reset</a>
+                    </div>
+                    <a href="?{{ request.GET.urlencode }}&export=1" class="btn-success">
+                        <i class="fas fa-file-excel"></i> Download Excel
+                    </a>
                 </div>
             </form>
         </div>
-        
-        <!-- Stats Bar -->
+
         {% if expenses %}
         <div class="stats-bar">
             <div class="stat-item">
-                <div class="label">Total Expenses</div>
-                <div class="value">{{ expenses|length }}</div>
+                <div class="label">Total Records</div>
+                <div class="value">{{ expenses.count }}</div>
             </div>
             <div class="stat-item">
                 <div class="label">Total Amount</div>
-                <div class="value">৳{{ total_amount|default:0|floatformat:2 }}</div>
+                <div class="value">৳ {{ total_amount|default:0|floatformat:2 }}</div>
             </div>
         </div>
         {% endif %}
-        
-        <!-- Expenses Table -->
+
         <div class="expenses-table">
-            <h2>All Expenses</h2>
-            
+            <h2>All Expense Records</h2>
             {% if expenses %}
             <table>
                 <thead>
@@ -380,33 +253,34 @@
                         <th>Category</th>
                         <th>Description</th>
                         <th>Amount</th>
-                        <th>Actions</th>
+                        <th style="text-align: center;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for expense in expenses %}
                     <tr>
                         <td>{{ expense.date|date:"d M, Y" }}</td>
-                        <td><span class="category-badge">{{expense.category.name}}</span></td>
-                        <td>{{ expense.description|truncatewords:5 }}</td>
-                        <td><span class="amount-badge">৳{{ expense.amount|floatformat:2 }}</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="{% url 'expenses:edit_expense' expense.id %}" class="btn-edit">✏️ Edit</a>
-                                <a href="{% url 'expenses:delete_expense' expense.id %}" class="btn-delete">🗑️ Delete</a>
-                            </div>
+                        <td><span class="category-badge">{{ expense.category.name }}</span></td>
+                        <td>{{ expense.description }}</td>
+                        <td><span class="amount-badge">৳ {{ expense.amount|floatformat:2 }}</span></td>
+                        <td style="text-align: center;">
+                            <a href="{% url 'expenses:edit_expense' expense.id %}" class="btn-edit"><i
+                                    class="fas fa-edit"></i></a>
+                            <a href="{% url 'expenses:delete_expense' expense.id %}" class="btn-delete"
+                                onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% else %}
-            <div class="empty-state">
-                <p>😢 No expenses found</p>
-                <a href="{% url 'expenses:add_expense' %}" class="btn-primary">+ Add Your First Expense</a>
+            <div style="text-align:center; padding: 40px; color:#999;">
+                <p>No expenses found. <a href="{% url 'expenses:add_expense' %}" style="color:#667eea;">Add New
+                        Expense</a></p>
             </div>
             {% endif %}
         </div>
     </div>
 </body>
+
 </html>

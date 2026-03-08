@@ -41,4 +41,5 @@ urlpatterns = [
     # মেম্বার এডিট এবং ডিলিট করার পাথ
     path("members/edit/<int:pk>/", views.edit_member, name="edit_member"),
     path("members/delete/<int:pk>/", views.delete_member, name="delete_member"),
+    path("expenses/export/", views.export_expenses_excel, name="export_excel"),
 ]

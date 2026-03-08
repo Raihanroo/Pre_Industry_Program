@@ -43,7 +43,17 @@ INSTALLED_APPS = [
     "rest_framework",
     "expenses",  # আপনার app
     "crispy_bootstrap5",
+    "crispy_forms",
 ]
+
+# ২. Crispy Forms এর জন্য এটি ফাইলের যেকোনো জায়গায় যোগ করুন
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# ৩. লোকাল হোস্টে কাজ করার জন্য এগুলো False রাখা জরুরি (না হলে লগইন সেশন কাজ করবে না)
+DEBUG = True
+CSRF_COOKIE_SECURE = False 
+SESSION_COOKIE_SECURE = False
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
