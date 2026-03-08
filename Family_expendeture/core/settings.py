@@ -26,8 +26,8 @@ SECRET_KEY = "django-insecure-uj*1wsjabg2j64i$5wi1df8unqj3kz9s#vhd6t36%*mm1_3-59
 DEBUG = True
 ALLOWED_HOSTS = [
     "rai32han.pythonanywhere.com",
-    "Rai32han.pythonanywhere.com",
-    "*",
+    "localhost",
+    "127.0.0.1",
 ]  # Development এর জন্য সব host allow করুন
 
 
@@ -52,7 +52,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # ৩. লোকাল হোস্টে কাজ করার জন্য এগুলো False রাখা জরুরি (না হলে লগইন সেশন কাজ করবে না)
 DEBUG = True
-CSRF_COOKIE_SECURE = False 
+CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
 MIDDLEWARE = [
@@ -192,7 +192,7 @@ REST_FRAMEWORK = {
 
 # ==================== Media Files Settings ====================
 # ইউজার যখন ছবি আপলোড করবে তখন এই URL ব্যবহার হবে
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 # ছবিগুলো সার্ভারের কোন ফোল্ডারে সেভ হবে তার পাথ
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / "media"
