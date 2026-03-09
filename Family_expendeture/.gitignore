@@ -10,3 +10,10 @@ db.sqlite3
 
 # Environment variables
 .env
+
+# Large files
+*.zip
+*.tar.gz
+
+# Media files (optional - depends on your needs)
+media/
