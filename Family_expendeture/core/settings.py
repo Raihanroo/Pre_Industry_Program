@@ -28,6 +28,9 @@ ALLOWED_HOSTS = [
     "rai32han.pythonanywhere.com",
     "localhost",
     "127.0.0.1",
+    ".railway.app",  # Railway deployment
+    ".herokuapp.com",  # Heroku deployment (backup)
+    "*",  # Allow all hosts during development
 ]  # Development এর জন্য সব host allow করুন
 
 
@@ -151,6 +154,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://rai32han.pythonanywhere.com",
+    "https://*.railway.app",
+    "https://*.herokuapp.com",
 ]
 
 CSRF_COOKIE_SECURE = True  # Development এ False, Production এ True
